@@ -1,0 +1,23 @@
+{% extends 'issue_base.html' %}
+
+{%block content%}
+    <h1 class="text-center">Send Email</h1>
+    <p class="text-center">Hey {{ user.first_name }}! Fill in the fields below to send an email to the specified representative!</p>
+    <div class="dropdown-divider"></div>
+
+    {% load crispy_forms_tags %}
+    <form method="post">
+        {% csrf_token %}
+        <div class="row">
+          <div class="col-6">
+            {{ form.recipient_email|as_crispy_field }}
+          </div>
+          <div class="col-6">
+            {{ form.sender|as_crispy_field }}
+          </div>
+        </div>
+        {{ form.subject|as_crispy_field }}
+        {{ form.message|as_crispy_field }}
+        <button type="submit" class="btn btn-success">Send</button>
+    </form>
+{%endblock%}

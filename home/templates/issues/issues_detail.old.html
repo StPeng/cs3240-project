@@ -1,0 +1,39 @@
+{% extends 'issue_base.html' %}
+{% load bootstrap4 %}
+{%block content%}
+
+<div class="card mb-3">
+  <h5 class="card-header text-center">{{ issue.issue_name }}</h5>
+  {% if issue.image %}
+    <img class="card-img-top-description" src="{{ issue.image.url }}" alt="Image for {{ issue.issue_name }}">
+  {% else %}
+    <img class="card-img-top-description" src="https://hooslistening119f20.s3.amazonaws.com/documents/default_image.png" alt="Issue Image">
+  {% endif %}
+  <div class="list-group list-grou-flush">
+    <li class="list-group-item">Description: {{ issue.description }}</li>
+    <li class="list-group-item">Template: {{ issue.email_template }}</li>
+  </div>
+  <div class="card-body text-center">
+
+    {% if user.is_authenticated %}
+      {% if issue in user.userprofile.saved_issues.all %}
+      <form id="remove_issue{{issues.id}}" method="POST" action="{%url 'home:remove_issue' issue.id%}">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{ request.path }}">
+        <button type="submit" class="btn btn-danger">Unsave Issue</button>
+      </form>
+
+      {% else %}
+
+      <form id="save_issue{{issues.id}}" method="POST" action="{%url 'home:save_issue' issue.id%}">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{ request.path }}">
+        <button type="submit" class="btn btn-success">Save Issue</button>
+      </form>
+    {% endif %}
+    <br>
+    {% endif %}
+    <a href="{%url 'home:email_page' issue.id%}" class="btn btn-primary ">Contact Representative</a>
+  </div>
+</div>
+{%endblock%}

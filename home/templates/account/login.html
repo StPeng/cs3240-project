@@ -1,0 +1,37 @@
+<!--
+# /***************************************************************************************
+# *  REFERENCES
+# *  Title: How to edit django-allauth default templates?
+# *  Author: Sebastian Tare B., TitanFighter
+# *  Date Accessed: 11/5/2020
+# *  Date Published: 8/18/2016
+# *  Code version: N/A
+# *  URL: https://stackoverflow.com/questions/39009638/how-to-edit-django-allauth-default-templates
+# *  Software License: CC BY-SA 3.0
+# ***************************************************************************************/
+-->
+
+{% extends "account/base.html" %}
+
+{% load i18n %}
+{% load account socialaccount %}
+
+{% block head %}
+{% trans "Sign In" %}
+{% endblock %}
+
+{% block content %}
+<h1 class="display-4 text-center">{% trans "Sign In Required" %}</h1>
+
+{% get_providers as socialaccount_providers %}
+
+<p class="text-center">{% blocktrans with site.name as site_name %} To access this page, please sign in with one
+of your existing third party accounts listed below. {% endblocktrans %}</p>
+
+<div class="text-center">
+  <ul class="list-unstyled h4">
+    {% include "socialaccount/snippets/provider_list.html" with process="login" %}
+  </ul>
+</div>
+
+{% endblock %}

@@ -1,0 +1,104 @@
+<!--
+# /***************************************************************************************
+# *  REFERENCES
+# *  Title: Bootstrap Documentation
+# *  Author: Bootstrap Team
+# *  Date: 10/28/2020
+# *  Code version: 4.5
+# *  URL: https://getbootstrap.com/docs/4.5/getting-started/introduction/
+# *  Software License: CC BY 3.0
+# *
+# *  Title: bootstrap navbar
+# *  Author: bootstrap4
+# *  Date: 9/16/20
+# *  Code version: 4.0
+# *  URL: https://getbootstrap.com/docs/4.0/examples/sticky-footer-navbar/# 
+# *  Software License: CC BY 3.0
+# ***************************************************************************************/
+-->
+<!doctype html>
+
+{% load socialaccount %}
+{% load bootstrap4 %}
+{% load static %}
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://hooslistening119f20.s3.amazonaws.com/custom.css">
+
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+    <title>
+      Hoos Listening
+    </title>
+  </head>
+
+  <body>
+      <nav class="navbar navbar-expand-md navbar-dark navbar-static-top bg-dark">
+        <a class="navbar-brand" href="{%url 'home:home'%}">Hoos Listening</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="{%url 'home:home'%}">Home<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{%url 'home:issues'%}">List of Issues</a>
+            </li>
+            {% if user.is_authenticated %}
+            <li class="nav-item">
+                <a class="nav-link" href="{%url 'home:submit_issue'%}">Submit Issue</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="{%url 'home:saved_issues'%}">Saved Issues</a>
+            </li>
+            {% endif %}
+            </ul>
+          {% if user.is_authenticated %}
+          <ul class="navbar-nav">
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle text-white" href="#" id="ProfileDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Hi, {{ user.first_name }}! </a>
+              <div class="dropdown-menu dropdown-menu-right bg-dark" aria-labelledby="ProfileDropdownMenuLink">
+                <a class="dropdown-item text-white" href="/profile">Profile</a>
+                <a class="dropdown-item text-white" href="/accounts/logout">Logout</a>
+              </div>
+            </li>
+          {% else %}
+          <a class="btn btn-primary" href="{% provider_login_url 'google' %}" role="button">Login</a>
+          {% endif %}
+          </ul>
+        </div>
+      </nav>
+    <main role="main" class="container">
+      <br>
+      {% if messages %}
+        {% for message in messages %}
+        {% if message.tags == "success" %}
+          <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Success! </strong>{{ message }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+          </button>
+          </div>
+        {% endif %}
+        {% endfor %}
+      {% endif %}
+      {% block content %}
+      {% endblock %}
+    </main>
+  </body>
+  <footer class="footer">
+    <div class="navbar fixed-bottom navbar-light bg-light">
+      <span class="text-muted">Copyright © 2020 Team Panda-mics</span>
+    </div>
+  </footer>
+</html>
